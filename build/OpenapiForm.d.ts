@@ -38,7 +38,7 @@ export declare const OpenapiForm: <T extends {
     method: M;
     formContext?: FormContext | undefined;
     /** Gets called after response came back */
-    withResponse: (response: any, statusCode: number | undefined, statusText: string | undefined) => void;
+    withResponse?: ((response: any, statusCode: number | undefined, statusText: string | undefined) => void) | undefined;
     /** Properties to be filled when initialising the form */
     initialData?: O | undefined;
     /** See https://rjsf-team.github.io/react-jsonschema-form/ for examples */

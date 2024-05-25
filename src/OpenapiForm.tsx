@@ -40,7 +40,7 @@ export const OpenapiForm = <
   method: M;
   formContext?: FormContext;
   /** Gets called after response came back */
-  withResponse: (
+  withResponse?: (
     response: any,
     statusCode: number | undefined,
     statusText: string | undefined,
