@@ -18,7 +18,9 @@ Non-goals:
 
 Install:
 
-`npm i react-openapi-form`
+```bash
+npm i react-openapi-form
+```
 
 # Usage
 
