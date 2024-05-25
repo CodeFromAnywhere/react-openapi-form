@@ -1,5 +1,6 @@
-import { Keys } from "from-anywhere";
+import { Keys, O } from "from-anywhere";
 import { FormContext, HttpMethodEnum, OpenapiDocument } from "openapi-util";
+import { RJSFSchema, UiSchema } from "@rjsf/utils";
 export type OperationPartial = {
     responses: {
         "200": {
@@ -36,5 +37,11 @@ export declare const OpenapiForm: <T extends {
     path: P;
     method: M;
     formContext?: FormContext | undefined;
+    /** Gets called after response came back */
+    withResponse: (response: any, statusCode: number | undefined, statusText: string | undefined) => void;
+    /** Properties to be filled when initialising the form */
+    initialData?: O | undefined;
+    /** See https://rjsf-team.github.io/react-jsonschema-form/ for examples */
+    uiSchema?: UiSchema<any, RJSFSchema, any> | undefined;
 }) => import("react/jsx-runtime").JSX.Element;
 //# sourceMappingURL=OpenapiForm.d.ts.map

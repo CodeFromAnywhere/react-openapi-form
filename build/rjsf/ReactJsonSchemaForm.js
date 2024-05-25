@@ -2,6 +2,7 @@
 import { jsx as _jsx } from "react/jsx-runtime";
 import { ChakraProvider } from "@chakra-ui/react";
 import Form from "@rjsf/chakra-ui";
+// import Form from "@rjsf/core";
 import validator from "@rjsf/validator-ajv8";
 // relative
 import { ObjectFieldTemplate } from "./ObjectFieldTemplate";
@@ -9,7 +10,7 @@ import { WrapIfAdditionalTemplate } from "./WrapIfAdditionalTemplate";
 import { VariableTextWidget } from "./VariableTextWidget";
 /** General purpose component with all my widgets and templates */
 export const ReactJsonSchemaForm = (props) => {
-    const { id, formData, onSubmit, isBooleanTextField, schema, onChange, variableJsonSchema, } = props;
+    const { id, formData, onSubmit, isBooleanTextField, schema, onChange, variableJsonSchema, uiSchema, } = props;
     const widgets = {
         // NB: This replaces all text fields with my custom widget (see https://rjsf-team.github.io/react-jsonschema-form/docs/advanced-customization/custom-widgets-fields#customizing-the-default-fields-and-widgets)
         TextWidget: VariableTextWidget,
@@ -38,6 +39,6 @@ export const ReactJsonSchemaForm = (props) => {
                 : undefined, onChange: (data) => {
                 const { formData } = data;
                 onChange?.(formData);
-            }, schema: schema, validator: validator, children: !!onChange ? _jsx("div", {}) : undefined }) }));
+            }, schema: schema, uiSchema: uiSchema, validator: validator, children: !!onChange ? _jsx("div", {}) : undefined }) }));
 };
 //# sourceMappingURL=ReactJsonSchemaForm.js.map

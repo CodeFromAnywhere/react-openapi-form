@@ -25,6 +25,7 @@ Install:
 
 ```tsx
 import { OpenapiForm } from "react-openapi-form";
+import "react-openapi-form/css.css";
 // Your openapi
 import openapi from "../public/openapi.json";
 
@@ -41,6 +42,7 @@ export default Page;
 - ✅ Extrahere `OpenapiForm` into `react-openapi-form` npm package and repo.
 - ✅ Make a good readme with goals/non-goals
 - ✅ Make `OpenapiForm` installation and usage docs good.
+- ✅ Fix theming
 - Ensure the form gets submitted properly.
-- Add possibility for extra UI to be provided
+- Add possibility for extra UI to be provided.
 - Make it possible to provide your own Form settings so all rsjf features don't get forgotten.

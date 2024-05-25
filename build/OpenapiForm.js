@@ -6,7 +6,7 @@ import { ReactJsonSchemaForm } from "./rjsf/ReactJsonSchemaForm";
  * Simple Openapi form
  */
 export const OpenapiForm = (props) => {
-    const { method, path, formContext, openapi } = props;
+    const { method, path, formContext, openapi, withResponse, initialData, uiSchema, } = props;
     const [isLoading, setIsLoading] = useState(false);
     const { schema, parameters, securitySchemes, servers } = openapi
         ? getFormContextFromOpenapi({ method, path, openapi })
@@ -15,9 +15,7 @@ export const OpenapiForm = (props) => {
             : {};
     //1. server-component: use getFormSchema (async function)
     //2. client-component: the resolved JSON Schema can be input into <RSJF/> ()
-    return (_jsxs("div", { children: [isLoading ? _jsx("div", { children: "Loading" }) : null, schema ? (_jsx(ReactJsonSchemaForm, { schema: schema, 
-                // TODO: Fill this with localStorage data
-                formData: undefined, onSubmit: (data) => {
+    return (_jsxs("div", { children: [isLoading ? _jsx("div", { children: "Loading" }) : null, schema ? (_jsx(ReactJsonSchemaForm, { schema: schema, uiSchema: uiSchema, formData: initialData, onSubmit: async (data) => {
                     if (!servers) {
                         alert("No servers");
                         return;
@@ -25,7 +23,7 @@ export const OpenapiForm = (props) => {
                     setIsLoading(true);
                     let statusCode = undefined;
                     let statusText = undefined;
-                    submitOperation({
+                    const response = await submitOperation({
                         path,
                         method,
                         servers,
@@ -39,14 +37,11 @@ export const OpenapiForm = (props) => {
                         const json = await response.json();
                         return json;
                     })
-                        .then((result) => {
-                        setIsLoading(false);
-                        console.log({ result });
-                    })
                         .catch((e) => {
-                        setIsLoading(false);
                         console.log(e);
                     });
+                    setIsLoading(false);
+                    withResponse?.(response, statusCode, statusText);
                 } })) : (_jsx("div", { children: "No schema" }))] }));
 };
 //# sourceMappingURL=OpenapiForm.js.map

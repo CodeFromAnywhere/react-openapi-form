@@ -2,8 +2,9 @@
 
 import { ChakraProvider } from "@chakra-ui/react";
 import Form from "@rjsf/chakra-ui";
+// import Form from "@rjsf/core";
 import validator from "@rjsf/validator-ajv8";
-import { RegistryWidgetsType } from "@rjsf/utils";
+import { RJSFSchema, RegistryWidgetsType, UiSchema } from "@rjsf/utils";
 import { JSONSchema7 } from "json-schema";
 // owned
 import { O } from "from-anywhere";
@@ -22,6 +23,7 @@ export const ReactJsonSchemaForm = (props: {
   /** If given, will show no submit button */
   onChange?: (formData?: O) => void;
   schema: JSONSchema7;
+  uiSchema?: UiSchema<any, RJSFSchema, any>;
 }) => {
   const {
     id,
@@ -31,6 +33,7 @@ export const ReactJsonSchemaForm = (props: {
     schema,
     onChange,
     variableJsonSchema,
+    uiSchema,
   } = props;
 
   const widgets: RegistryWidgetsType = {
@@ -48,6 +51,7 @@ export const ReactJsonSchemaForm = (props: {
       <Form
         id={id}
         // liveOmit
+
         templates={{
           ObjectFieldTemplate,
           WrapIfAdditionalTemplate,
@@ -77,6 +81,7 @@ export const ReactJsonSchemaForm = (props: {
           onChange?.(formData);
         }}
         schema={schema}
+        uiSchema={uiSchema}
         validator={validator}
         //  noHtml5Validate
       >
