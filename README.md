@@ -5,7 +5,6 @@ Welcome to react-openapi-form. This is a thin wrapper around [rjsf](https://gith
 Goals:
 
 - Make it easy to use [rjsf](https://github.com/rjsf-team/react-jsonschema-form) with openapis with minimal configuration.
-- Be unopinionated about the theming
 - Flexibility to edit
 - Ability to work with remote openapis as well as imported ones.
 - Type-safety
@@ -43,6 +42,10 @@ export default Page;
 - ✅ Make a good readme with goals/non-goals
 - ✅ Make `OpenapiForm` installation and usage docs good.
 - ✅ Fix theming
+- ✅ Allow for default values and doing stuff with response
+- ✅ Add possibility for extra UI to be provided.
 - Ensure the form gets submitted properly.
-- Add possibility for extra UI to be provided.
-- Make it possible to provide your own Form settings so all rsjf features don't get forgotten.
+
+# Wishlist
+
+- Be unopinionated about the theming: Make it possible to provide your own Form settings so all rsjf features don't get forgotten. We can do this by decoupling rendering from this package into a prop.
