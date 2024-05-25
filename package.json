@@ -2,11 +2,12 @@
   "name": "react-openapi-form",
   "type": "module",
   "main": "build/index.js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "css": "tailwindcss -o css.css",
     "tsc": "tsc",
     "dev": "npx tsc-watch --noClear --onSuccess 'yarn css'",
+    "up": "npm version patch -f",
     "pub": "npm run up && npm publish && git add . && git commit -m 'improvements' && git push"
   },
   "peerDependencies": {
