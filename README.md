@@ -1,11 +1,10 @@
 # react-openapi-form
 
-Welcome to react-openapi-form. This is a thin wrapper around [rjsf](https://github.com/rjsf-team/react-jsonschema-form).
+Welcome to `react-openapi-form`. This is a thin wrapper around [rjsf](https://github.com/rjsf-team/react-jsonschema-form).
 
 Goals:
 
 - Make it easy to use [rjsf](https://github.com/rjsf-team/react-jsonschema-form) with openapis with minimal configuration.
-- Flexibility to edit
 - Ability to work with remote openapis as well as imported ones.
 - Type-safety
 
