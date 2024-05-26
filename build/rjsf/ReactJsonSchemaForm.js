@@ -19,7 +19,7 @@ export const ReactJsonSchemaForm = (props) => {
         // NB: turns all booleans into a text field
         widgets.CheckboxWidget = VariableTextWidget;
     }
-    return (_jsx(ChakraProvider, { theme: {}, children: _jsx(Form, { id: id, 
+    return (_jsx(ChakraProvider, { children: _jsx(Form, { id: id, 
             // liveOmit
             templates: {
                 ObjectFieldTemplate,
