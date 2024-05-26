@@ -47,7 +47,7 @@ export const ReactJsonSchemaForm = (props: {
   }
 
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={{}}>
       <Form
         id={id}
         // liveOmit
