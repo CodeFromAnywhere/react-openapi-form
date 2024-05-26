@@ -12,8 +12,8 @@ import { VariableTextWidget } from "./VariableTextWidget";
 export const ReactJsonSchemaForm = (props) => {
     const { id, formData, onSubmit, isBooleanTextField, schema, onChange, variableJsonSchema, uiSchema, } = props;
     const widgets = {
-        // NB: This replaces all text fields with my custom widget (see https://rjsf-team.github.io/react-jsonschema-form/docs/advanced-customization/custom-widgets-fields#customizing-the-default-fields-and-widgets)
-        TextWidget: VariableTextWidget,
+    // NB: This replaces all text fields with my custom widget (see https://rjsf-team.github.io/react-jsonschema-form/docs/advanced-customization/custom-widgets-fields#customizing-the-default-fields-and-widgets)
+    // TextWidget: VariableTextWidget,
     };
     if (isBooleanTextField) {
         // NB: turns all booleans into a text field

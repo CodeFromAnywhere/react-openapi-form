@@ -38,7 +38,7 @@ export const ReactJsonSchemaForm = (props: {
 
   const widgets: RegistryWidgetsType = {
     // NB: This replaces all text fields with my custom widget (see https://rjsf-team.github.io/react-jsonschema-form/docs/advanced-customization/custom-widgets-fields#customizing-the-default-fields-and-widgets)
-    TextWidget: VariableTextWidget,
+    // TextWidget: VariableTextWidget,
   };
 
   if (isBooleanTextField) {
