@@ -27,7 +27,7 @@ export const OpenapiForm = <
         [key in HttpMethodEnum]?: OperationPartial;
       };
     };
-  } & OpenapiDocument,
+  },
   P extends Keys<T["paths"]>,
   M extends keyof T["paths"][P] & HttpMethodEnum,
 >(props: {
@@ -68,7 +68,11 @@ export const OpenapiForm = <
   const [isLoading, setIsLoading] = useState(false);
 
   const { schema, parameters, securitySchemes, servers } = openapi
-    ? getFormContextFromOpenapi({ method, path, openapi })
+    ? getFormContextFromOpenapi({
+        method,
+        path,
+        openapi: openapi as unknown as OpenapiDocument | undefined,
+      })
     : formContext
     ? formContext
     : ({} as Partial<FormContext>);

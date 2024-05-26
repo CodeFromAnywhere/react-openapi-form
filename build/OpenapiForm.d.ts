@@ -1,5 +1,5 @@
 import { Keys, O } from "from-anywhere";
-import { FormContext, HttpMethodEnum, OpenapiDocument } from "openapi-util";
+import { FormContext, HttpMethodEnum } from "openapi-util";
 import { RJSFSchema, UiSchema } from "@rjsf/utils";
 export type OperationPartial = {
     responses: {
@@ -28,7 +28,7 @@ export declare const OpenapiForm: <T extends {
             trace?: OperationPartial | undefined;
         };
     };
-} & OpenapiDocument, P extends Keys<T["paths"]>, M extends keyof T["paths"][P] & HttpMethodEnum>(props: {
+}, P extends Keys<T["paths"]>, M extends keyof T["paths"][P] & HttpMethodEnum>(props: {
     /** You can provide a direct JSON import of the OpenAPI here just in order to gain typescript type inference for the paths and methods.
      *
      * If you provide this, formContext can be inferred and should be omitted.

@@ -9,7 +9,11 @@ export const OpenapiForm = (props) => {
     const { method, path, formContext, openapi, withResponse, initialData, uiSchema, } = props;
     const [isLoading, setIsLoading] = useState(false);
     const { schema, parameters, securitySchemes, servers } = openapi
-        ? getFormContextFromOpenapi({ method, path, openapi })
+        ? getFormContextFromOpenapi({
+            method,
+            path,
+            openapi: openapi,
+        })
         : formContext
             ? formContext
             : {};
