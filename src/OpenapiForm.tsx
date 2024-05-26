@@ -4,7 +4,7 @@ import {
   HttpMethodEnum,
   OpenapiDocument,
   getFormContextFromOpenapi,
-  submitOperation,
+  getOperationRequestInit,
 } from "openapi-util";
 import { useState } from "react";
 import { ReactJsonSchemaForm } from "./rjsf/ReactJsonSchemaForm";
@@ -40,11 +40,16 @@ export const OpenapiForm = <
   method: M;
   formContext?: FormContext;
   /** Gets called after response came back */
-  withResponse?: (
-    response: any,
-    statusCode: number | undefined,
-    statusText: string | undefined,
-  ) => void;
+  withResponse?: (context: {
+    response: any;
+    statusCode: number | undefined;
+    statusText: string | undefined;
+    url: string;
+    body: string | undefined;
+    bodyData: O | undefined;
+    headers: O;
+    method: HttpMethodEnum;
+  }) => void;
   /** Properties to be filled when initialising the form */
   initialData?: O;
   /** See https://rjsf-team.github.io/react-jsonschema-form/ for examples */
@@ -90,14 +95,19 @@ export const OpenapiForm = <
             let statusCode: number | undefined = undefined;
             let statusText: string | undefined = undefined;
 
-            const response = await submitOperation({
-              path,
-              method,
-              servers,
-              data: data || {},
-              parameters,
-              securitySchemes,
-            })
+            const { fetchRequestInit, url, bodyData } = getOperationRequestInit(
+              {
+                path,
+                method,
+                servers,
+                data: data || {},
+                parameters,
+                securitySchemes,
+              },
+            );
+            const { body, headers } = fetchRequestInit;
+
+            const response = await fetch(url, fetchRequestInit)
               .then(async (response) => {
                 statusCode = response.status;
                 statusText = response.statusText;
@@ -110,7 +120,16 @@ export const OpenapiForm = <
 
             setIsLoading(false);
 
-            withResponse?.(response, statusCode, statusText);
+            withResponse?.({
+              response,
+              statusCode,
+              statusText,
+              url,
+              bodyData,
+              body,
+              headers,
+              method,
+            });
           }}
         />
       ) : (

@@ -1,5 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { getFormContextFromOpenapi, submitOperation, } from "openapi-util";
+import { getFormContextFromOpenapi, getOperationRequestInit, } from "openapi-util";
 import { useState } from "react";
 import { ReactJsonSchemaForm } from "./rjsf/ReactJsonSchemaForm";
 /**
@@ -23,14 +23,16 @@ export const OpenapiForm = (props) => {
                     setIsLoading(true);
                     let statusCode = undefined;
                     let statusText = undefined;
-                    const response = await submitOperation({
+                    const { fetchRequestInit, url, bodyData } = getOperationRequestInit({
                         path,
                         method,
                         servers,
                         data: data || {},
                         parameters,
                         securitySchemes,
-                    })
+                    });
+                    const { body, headers } = fetchRequestInit;
+                    const response = await fetch(url, fetchRequestInit)
                         .then(async (response) => {
                         statusCode = response.status;
                         statusText = response.statusText;
@@ -41,7 +43,16 @@ export const OpenapiForm = (props) => {
                         console.log(e);
                     });
                     setIsLoading(false);
-                    withResponse?.(response, statusCode, statusText);
+                    withResponse?.({
+                        response,
+                        statusCode,
+                        statusText,
+                        url,
+                        bodyData,
+                        body,
+                        headers,
+                        method,
+                    });
                 } })) : (_jsx("div", { children: "No schema" }))] }));
 };
 //# sourceMappingURL=OpenapiForm.js.map
