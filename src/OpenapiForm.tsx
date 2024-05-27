@@ -6,7 +6,9 @@ import {
   getFormContextFromOpenapi,
   getOperationRequestInit,
 } from "openapi-util";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { resolveSchemaRecursive } from "openapi-util/build/resolveSchemaRecursive";
+
 import { ReactJsonSchemaForm } from "./rjsf/ReactJsonSchemaForm";
 import { RJSFSchema, UiSchema } from "@rjsf/utils";
 
@@ -18,7 +20,7 @@ export type OperationPartial = {
 };
 
 /**
- * Simple Openapi form
+ * Simple Openapi form.
  */
 export const OpenapiForm = <
   T extends {
@@ -66,16 +68,36 @@ export const OpenapiForm = <
   } = props;
 
   const [isLoading, setIsLoading] = useState(false);
+  const [formContextState, setFormContextState] = useState<
+    FormContext | undefined
+  >(formContext);
 
-  const { schema, parameters, securitySchemes, servers } = openapi
-    ? getFormContextFromOpenapi({
-        method,
-        path,
-        openapi: openapi as unknown as OpenapiDocument | undefined,
-      })
-    : formContext
-    ? formContext
-    : ({} as Partial<FormContext>);
+  /**
+   * NB: Unfortunately the reference resolving is async and this makes a hook required in this way. This can probably be done differently but I should focus at this stage.
+   *
+   * Now, the first render will not contain the resulting schema yet for openapi inferenced forms.
+   */
+  useEffect(() => {
+    (async () => {
+      if (openapi) {
+        const dereferenced = (await resolveSchemaRecursive({
+          document: openapi,
+          shouldDereference: true,
+        })) as OpenapiDocument | undefined;
+
+        const formContext = getFormContextFromOpenapi({
+          method,
+          path,
+          openapi: dereferenced,
+        });
+
+        setFormContextState(formContext);
+      }
+    })();
+  }, []);
+
+  const { schema, parameters, securitySchemes, servers } =
+    formContextState || ({} as Partial<FormContext>);
 
   //1. server-component: use getFormSchema (async function)
   //2. client-component: the resolved JSON Schema can be input into <RSJF/> ()

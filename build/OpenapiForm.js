@@ -1,6 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { getFormContextFromOpenapi, getOperationRequestInit, } from "openapi-util";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { resolveSchemaRecursive } from "openapi-util/build/resolveSchemaRecursive";
 import { ReactJsonSchemaForm } from "./rjsf/ReactJsonSchemaForm";
 /**
  * Simple Openapi form
@@ -8,15 +9,24 @@ import { ReactJsonSchemaForm } from "./rjsf/ReactJsonSchemaForm";
 export const OpenapiForm = (props) => {
     const { method, path, formContext, openapi, withResponse, initialData, uiSchema, } = props;
     const [isLoading, setIsLoading] = useState(false);
-    const { schema, parameters, securitySchemes, servers } = openapi
-        ? getFormContextFromOpenapi({
-            method,
-            path,
-            openapi: openapi,
-        })
-        : formContext
-            ? formContext
-            : {};
+    const [formContextState, setFormContextState] = useState(formContext);
+    useEffect(() => {
+        (async () => {
+            if (openapi) {
+                const dereferenced = (await resolveSchemaRecursive({
+                    document: openapi,
+                    shouldDereference: true,
+                }));
+                const formContext = getFormContextFromOpenapi({
+                    method,
+                    path,
+                    openapi: dereferenced,
+                });
+                setFormContextState(formContext);
+            }
+        })();
+    }, []);
+    const { schema, parameters, securitySchemes, servers } = formContextState || {};
     //1. server-component: use getFormSchema (async function)
     //2. client-component: the resolved JSON Schema can be input into <RSJF/> ()
     return (_jsxs("div", { children: [isLoading ? _jsx("div", { children: "Loading" }) : null, schema ? (_jsx(ReactJsonSchemaForm, { schema: schema, uiSchema: uiSchema, formData: initialData, onSubmit: async (data) => {
