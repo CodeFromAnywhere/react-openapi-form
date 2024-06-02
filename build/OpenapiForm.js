@@ -4,12 +4,17 @@ import { useEffect, useState } from "react";
 import { resolveSchemaRecursive } from "openapi-util/build/resolveSchemaRecursive";
 import { ReactJsonSchemaForm } from "./rjsf/ReactJsonSchemaForm";
 /**
- * Simple Openapi form
+ * Simple Openapi form.
  */
 export const OpenapiForm = (props) => {
     const { method, path, formContext, openapi, withResponse, initialData, uiSchema, } = props;
     const [isLoading, setIsLoading] = useState(false);
     const [formContextState, setFormContextState] = useState(formContext);
+    /**
+     * NB: Unfortunately the reference resolving is async and this makes a hook required in this way. This can probably be done differently but I should focus at this stage.
+     *
+     * Now, the first render will not contain the resulting schema yet for openapi inferenced forms.
+     */
     useEffect(() => {
         (async () => {
             if (openapi) {
@@ -22,6 +27,7 @@ export const OpenapiForm = (props) => {
                     path,
                     openapi: dereferenced,
                 });
+                console.log({ dereferenced, formContext });
                 setFormContextState(formContext);
             }
         })();

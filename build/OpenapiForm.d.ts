@@ -13,7 +13,7 @@ export type OperationPartial = {
     };
 };
 /**
- * Simple Openapi form
+ * Simple Openapi form.
  */
 export declare const OpenapiForm: <T extends {
     paths: {
