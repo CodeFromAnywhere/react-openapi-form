@@ -2,7 +2,7 @@
   "name": "react-openapi-form",
   "type": "module",
   "main": "build/index.js",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "scripts": {
     "css": "tailwindcss -o css.css",
     "tsc": "tsc",
